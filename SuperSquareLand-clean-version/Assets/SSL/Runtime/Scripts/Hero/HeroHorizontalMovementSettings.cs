@@ -8,7 +8,8 @@ using UnityEngine;
 public class HeroHorizontalMovementSettings
 {
     public float acceleration = 20f;
-    public float deceleration = 15f;   
+    public float deceleration = 20f;   
     public float speedMax = 5f;
+    public float turnBackFrictions = 25f;
 }
 

@@ -845,6 +845,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 7212136366118121974}
-  _horizontalSpeed: 5
+  _movementSettings:
+    acceleration: 20
+    deceleration: 20
+    speedMax: 5
+    turnBackFrictions: 25
+  _dashSettings:
+    speed: 40
+    duration: 0.1
+  _moveDash: 0
+  _dashDuration: 0
   _orientVisualRoot: {fileID: 3024582456938629764}
-  _guiDebug: 0
+  _guiDebug: 1
