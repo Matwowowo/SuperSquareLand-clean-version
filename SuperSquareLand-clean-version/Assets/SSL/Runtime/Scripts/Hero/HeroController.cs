@@ -6,6 +6,7 @@ public class HeroController : MonoBehaviour
     [SerializeField] private HeroEntity _entity;
     private bool _entityWasTouchingGround;
 
+
     [Header("Coyoto Time")]
     [SerializeField] private float _coyoteTimeDuration = 0.2f;
     private float _coyoteTimeCountdown = -1f;
@@ -31,7 +32,13 @@ public class HeroController : MonoBehaviour
         } else {
             _UpdateCoyoteTime();
         }
-        
+
+        if (_GetDashInput())
+        {
+            
+        }
+
+
         if (_GetInputDownJump())
         {
             if (_entity.IsTouchingGround || _IsCoyoteTimeActive() && !_entity.IsJumping) 
@@ -62,7 +69,12 @@ public class HeroController : MonoBehaviour
         _entityWasTouchingGround = _entity.IsTouchingGround;
     }
 
-    
+
+    private void Start()
+    {
+        _CancelJumpBuffer();
+    }
+
     private void _UpdateCoyoteTime()
     {
         if (!_IsCoyoteTimeActive()) return;
@@ -74,10 +86,6 @@ public class HeroController : MonoBehaviour
         return _coyoteTimeCountdown > 0;
     }
 
-    private bool IsCoyoteTimeActive() 
-    {
-        return _coyoteTimeCountdown > 0f;
-    }
 
     private void _ResetCoyoteTime()
     {
@@ -133,16 +141,11 @@ public class HeroController : MonoBehaviour
         return inputMoveX;
     }
 
-    private float GetInputDash()
+    private bool _GetDashInput()
     {
-        float inputDash = 0f;
-        if(Input.GetKey(KeyCode.E))
-        {
-            inputDash = _entity._moveDash;
-        }
-
-        return inputDash;
+        return Input.GetKeyDown(KeyCode.E);
     }
+   
     private void OnGUI()
     {
         if (!_guiDebug) return;

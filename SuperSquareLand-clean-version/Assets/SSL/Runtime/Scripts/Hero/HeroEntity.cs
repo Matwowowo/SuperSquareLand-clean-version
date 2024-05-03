@@ -17,8 +17,8 @@ public class HeroEntity : MonoBehaviour
 
     [Header("Dash")]
     [SerializeField] private HeroDashSettings _dashSettings;
-    public float _moveDash = 0f;
-    public float _dashDuration = 0f;
+    private float _dashTimer;
+    
     
 
     [Header("Orientation")]
@@ -49,6 +49,7 @@ public class HeroEntity : MonoBehaviour
         _moveDirX = dirX;  
     }
 
+    #region Jump
     enum JumpState
     {
         NotJumping,
@@ -58,7 +59,7 @@ public class HeroEntity : MonoBehaviour
     
     private JumpState _jumpState = JumpState.NotJumping;
     public bool IsJumping => _jumpState != JumpState.NotJumping;
-    private float _jumpTimer = 0f;
+    private float _jumpTimer;
     
     public void JumpStart () 
     {
@@ -111,11 +112,8 @@ public class HeroEntity : MonoBehaviour
 
     public bool IsJumpImpulsing => _jumpState == JumpState.JumpImpulsion;
     public bool isJumpMinDurationReached => _jumpTimer >= _jumpSettings.jumpMinDuration;
-    public void SetDash(float dash)
-    {
-        _moveDash = dash;
-    }
 
+    #endregion
     private void FixedUpdate()
     {
         _ApplyGroundDetection();
@@ -151,7 +149,7 @@ public class HeroEntity : MonoBehaviour
 
         _ApplyHorizontalSpeed();
         _ApplyVerticalSpeed();
-        _Dash();
+        
     
     }
     #region Orientation
@@ -231,6 +229,7 @@ public class HeroEntity : MonoBehaviour
         _rigidbody.velocity = velocity;
     }
 
+    #region Horizontal
     private void _UpdateHorizontalSpeed(HeroHorizontalMovementSettings settings)
     {
         if (_moveDirX != 0f)
@@ -260,18 +259,20 @@ public class HeroEntity : MonoBehaviour
         }
     }
 
-    
-    public void _Dash()
+    #endregion
+    public void DashStart(HeroHorizontalMovementSettings settings) /* Faire en 2 fonctions disctincts*/
     {
-        _moveDash = _dashSettings.speed * Time.fixedDeltaTime;
+        _dashTimer = 0f;
+        _dashTimer += Time.deltaTime;
+        if ( _dashTimer < _dashSettings.duration) 
+        { 
+            _horizontalSpeed = _dashSettings.speed;
+        } else
+        {
+            _horizontalSpeed = settings.speedMax;
+        }
 
     }
-
-    /* public void _DashTimer()
-    {
-        _dashDuration = _dashSettings.duration;
-        if()
-    } */
     private void OnGUI()
     {
         if (!_guiDebug) return;
