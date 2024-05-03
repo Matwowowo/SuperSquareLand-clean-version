@@ -260,7 +260,7 @@ public class HeroEntity : MonoBehaviour
     }
 
     #endregion
-    public void DashStart(HeroHorizontalMovementSettings settings) /* Faire en 2 fonctions disctincts*/
+    public void DashStart(HeroHorizontalMovementSettings settings) /* Faire en 2 fonctions disctincts, regarder cameraManager*/
     {
         _dashTimer = 0f;
         _dashTimer += Time.deltaTime;
