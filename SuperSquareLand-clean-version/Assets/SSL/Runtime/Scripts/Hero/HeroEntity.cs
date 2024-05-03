@@ -43,7 +43,25 @@ public class HeroEntity : MonoBehaviour
 
     public bool IsTouchingGround { get; private set; } = false;
 
+    private CameraFollowable _cameraFollowable;
 
+    private void Awake()
+    {
+        _cameraFollowable = GetComponent<CameraFollowable>();
+        _cameraFollowable.FollowPositionX = _rigidbody.position.x;
+        _cameraFollowable.FollowPositionY = _rigidbody.position.y;
+    }
+
+    private void _UpdateCameraFollowPosition()
+    {
+        _cameraFollowable.FollowPositionX = _rigidbody.position.x;
+        if(IsTouchingGround && !IsJumping)
+        {
+            _cameraFollowable.FollowPositionY = _rigidbody.position.y;
+        }
+    }
+    
+    
     public void SetMoveDirX(float dirX)
     {
         _moveDirX = dirX;  
@@ -117,7 +135,7 @@ public class HeroEntity : MonoBehaviour
     private void FixedUpdate()
     {
         _ApplyGroundDetection();
-
+        _UpdateCameraFollowPosition();
 
         HeroHorizontalMovementSettings horizontalMovementSettings = _GetCurrentHorizontalMovementSettings();
         if (_AreOrientAndMovementOpposite())
