@@ -18,10 +18,13 @@ public class HeroController : MonoBehaviour
     [SerializeField] private float _jumpBufferDuration = 0.2f;
     private float _jumpBufferTimer = 0.0f;
 
+    private HeroHorizontalMovementSettings _movementSettings;
+
 
     private void Update()
     {
         _UpdateJumpBuffer();
+        
 
 
         _entity.SetMoveDirX(GetInputMoveX());
@@ -35,10 +38,12 @@ public class HeroController : MonoBehaviour
 
         if (_GetDashInput())
         {
+            _entity.DashStart();
+            _entity.DashTimer(_movementSettings);
             
         }
 
-
+        
         if (_GetInputDownJump())
         {
             if (_entity.IsTouchingGround || _IsCoyoteTimeActive() && !_entity.IsJumping) 
@@ -50,6 +55,7 @@ public class HeroController : MonoBehaviour
             }
         }
 
+        
         if (IsJumpBufferActive())
         {
             if (_entity.IsTouchingGround || _IsCoyoteTimeActive() && !_entity.IsJumping)

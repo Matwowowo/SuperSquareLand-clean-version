@@ -52,6 +52,8 @@ public class HeroEntity : MonoBehaviour
         _cameraFollowable.FollowPositionY = _rigidbody.position.y;
     }
 
+   
+
     private void _UpdateCameraFollowPosition()
     {
         _cameraFollowable.FollowPositionX = _rigidbody.position.x;
@@ -136,6 +138,7 @@ public class HeroEntity : MonoBehaviour
     {
         _ApplyGroundDetection();
         _UpdateCameraFollowPosition();
+        
 
         HeroHorizontalMovementSettings horizontalMovementSettings = _GetCurrentHorizontalMovementSettings();
         if (_AreOrientAndMovementOpposite())
@@ -278,19 +281,28 @@ public class HeroEntity : MonoBehaviour
     }
 
     #endregion
-    public void DashStart(HeroHorizontalMovementSettings settings) /* Faire en 2 fonctions disctincts, regarder cameraManager*/
+    public void DashStart() /* Faire en 2 fonctions disctincts, regarder cameraManager*/
     {
         _dashTimer = 0f;
-        _dashTimer += Time.deltaTime;
-        if ( _dashTimer < _dashSettings.duration) 
-        { 
-            _horizontalSpeed = _dashSettings.speed;
-        } else
-        {
-            _horizontalSpeed = settings.speedMax;
-        }
-
+       
     }
+
+    public void DashTimer(HeroHorizontalMovementSettings settings)
+    {
+        _dashTimer += Time.deltaTime;
+        if (_dashTimer < _dashSettings.duration)
+        {
+            _horizontalSpeed = _dashSettings.speed;
+        }
+        else
+        {
+            
+            _horizontalSpeed = settings.speedMax;
+
+        }
+    }
+
+    
     private void OnGUI()
     {
         if (!_guiDebug) return;
